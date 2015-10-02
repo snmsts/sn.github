@@ -16,7 +16,7 @@
   :version "0.1"
   :author "SANO Masatoshi"
   :license "MIT"
-  :depends-on (:cl-gists)
+  :depends-on (:cl-gists :jonathan :quri)
   :components ((:module "src"
                 :components
                 ((:file "release"))))
