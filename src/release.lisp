@@ -1,5 +1,5 @@
 (in-package :cl-user)
-(defpackage sn.github.release
+(defpackage sn.github.repos.release
   (:use :cl)
   (:export :releases-list
            :release-by-id
@@ -14,7 +14,7 @@
            :release-asset-edit
            :release-asset-delete))
 
-(in-package :sn.github.release)
+(in-package :sn.github.repos.release)
 
 (defun releases-list (owner repo &optional (as :plist))
   (jonathan:parse (cl-gists.util:get-request (quri:uri (format nil "~A/repos/~A/~A/releases"
