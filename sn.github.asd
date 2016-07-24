@@ -19,7 +19,7 @@
   :depends-on (:cl-gists :jonathan :quri)
   :components ((:module "src"
                 :components
-                ((:file "release"))))
+                ((:file "repo.release"))))
   :description ""
   :long-description
   #.(with-open-file (stream (merge-pathnames
