@@ -95,7 +95,17 @@
                                repo
                                id)))
         (cl-gists:*credentials* t))
-    (jonathan:parse (cl-gists.util:get-request uri) :as as)))
+    (loop with json
+          with status
+          with headers
+          do (multiple-value-setq (json status headers) (cl-gists.util:get-request uri))
+             (setf status
+                   (ignore-errors
+                    (second (assoc "rel=\"next" (mapcar (lambda (x) (reverse (mapcar (lambda (x) (string-trim " <>\"" x)) (split-sequence:split-sequence #\; x)))) (split-sequence:split-sequence #\, (gethash "link" headers))) :test 'equal))))
+             (when status
+               (setf uri (quri:uri status)))
+          append (jonathan:parse json :as as)
+          while status)))
 
 (defun releases-asset-upload (owner repo id file &key name label (as :plist))
   (let ((upload-uri (getf (releases-by-id owner repo id) :|upload_url|)))
