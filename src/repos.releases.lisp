@@ -17,11 +17,22 @@
 (in-package :sn.github.repos.releases)
 
 (defun releases-list (owner repo &optional (as :plist))
-  (jonathan:parse (cl-gists.util:get-request (quri:uri (format nil "~A/repos/~A/~A/releases"
-                                                               cl-gists.api::+api-base-uri+   
-                                                               owner
-                                                               repo)))
-                  :as as))
+  (let ((uri (quri:uri (format nil "~A/repos/~A/~A/releases"
+                               cl-gists.api::+api-base-uri+   
+                               owner
+                               repo)))
+        (cl-gists:*credentials* t))
+    (loop with json
+          with status
+          with headers
+          do (multiple-value-setq (json status headers) (cl-gists.util:get-request uri))
+             (setf status
+                   (ignore-errors
+                    (second (assoc "rel=\"next" (mapcar (lambda (x) (reverse (mapcar (lambda (x) (string-trim " <>\"" x)) (split-sequence:split-sequence #\; x)))) (split-sequence:split-sequence #\, (gethash "link" headers))) :test 'equal))))
+             (when status
+               (setf uri (quri:uri status)))
+          append (jonathan:parse json :as as)
+          while status)))
 
 (defun releases-by-id (owner repo id &optional (as :plist))
   (jonathan:parse (cl-gists.util:get-request (quri:uri (format nil "~A/repos/~A/~A/releases/~A"
