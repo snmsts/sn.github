@@ -19,7 +19,8 @@
   :depends-on (:cl-gists :jonathan :quri)
   :components ((:module "src"
                 :components
-                ((:file "repos.releases"))))
+                ((:file "repos.releases")
+                 (:file "issues"))))
   :description ""
   :long-description
   #.(with-open-file (stream (merge-pathnames
