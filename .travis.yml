@@ -1,0 +1,22 @@
+language: common-lisp
+sudo: false
+
+env:
+  global:
+    - PATH: ~/.roswell/bin:$PATH
+    - ROSWELL_INSTALL_DIR: $HOME/.roswell
+  matrix:
+    - LISP=sbcl-bin
+    - LISP=ccl-bin
+
+os:
+  - osx
+  - linux
+
+install:
+  - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh
+  - ros install $TRAVIS_REPO_SLUG
+
+script:
+  - echo `echo $TRAVIS_REPO_SLUG | awk '{split($0,a,"/"); print "(print :"a[2]")(ros:quit)"} '` |ros -L $LISP run
+
