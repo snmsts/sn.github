@@ -15,7 +15,8 @@ os:
 
 install:
   - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh
-  - ros install $TRAVIS_REPO_SLUG/$TRAVIS_COMMIT
+  - ros install $TRAVIS_REPO_SLUG
+  - ros git `echo $TRAVIS_REPO_SLUG | awk '{split($0,a,"/"); print a[2]}'` checkout $TRAVIS_COMMIT
 
 script:
   - echo `echo $TRAVIS_REPO_SLUG | awk '{split($0,a,"/"); print "(asdf:test-system :"a[2]")(ros:quit)"} '` |ros -L $LISP run
