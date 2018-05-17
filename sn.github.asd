@@ -23,15 +23,12 @@
                  (:file "issues"))))
   :description ""
   :long-description
-  #.(with-open-file (stream (merge-pathnames
-                             #p"README.md"
-                             (or *load-pathname* *compile-file-pathname*))
-                            :if-does-not-exist nil
-                            :direction :input)
-      (when stream
-        (let ((seq (make-array (file-length stream)
-                               :element-type 'character
-                               :fill-pointer t)))
-          (setf (fill-pointer seq) (read-sequence seq stream))
-          seq)))
-  :in-order-to ((test-op (test-op sn.github-test))))
+  #.(uiop:read-file-string (merge-pathnames
+                            #p"README.md" (or *load-pathname* *compile-file-pathname*)))
+  :in-order-to ((test-op (test-op :sn.github/test))))
+
+(defsystem sn.github/test
+  :depends-on (:sn.github)
+  :components ((:module "test"
+                        :components
+                        ())))
