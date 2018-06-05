@@ -19,4 +19,4 @@ install:
   - ros git `echo $TRAVIS_REPO_SLUG | awk '{split($0,a,"/"); print a[2]}'` checkout $TRAVIS_COMMIT
 
 script:
-  - echo `echo $TRAVIS_REPO_SLUG | awk '{split($0,a,"/"); print "(ql:quickload :"a[2]")(asdf:test-system :"a[2]")(ros:quit)"} '` |ros -L $LISP run
+  - echo `echo $TRAVIS_REPO_SLUG | awk '{split($0,a,"/"); print "(ql:quickload :"a[2]"/test)(asdf:test-system :"a[2]")(ros:quit)"} '` |ros -L $LISP run
