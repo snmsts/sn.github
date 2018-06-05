@@ -28,7 +28,8 @@
   :in-order-to ((test-op (test-op :sn.github/test))))
 
 (defsystem sn.github/test
-  :depends-on (:sn.github)
-  :components ((:module "test"
-                        :components
-                        ())))
+  :class :package-inferred-system
+  :depends-on (:sn.github :rove)
+  :components ((:file "test/github"))
+  :perform (test-op :after (o c)
+                    (uiop:symbol-call :rove :run :sn.github/test)))
