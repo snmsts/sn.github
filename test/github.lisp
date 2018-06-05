@@ -1,7 +1,7 @@
-(defpackage t/github
+(defpackage test/github
   (:use :cl
         :rove))
-(in-package :t/github)
+(in-package :test/github)
 
 (deftest dummy
   (testing "dummy"

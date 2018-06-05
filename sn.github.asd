@@ -13,10 +13,10 @@
                             #p"README.md" (or *load-pathname* *compile-file-pathname*)))
   :in-order-to ((test-op (test-op :sn.github/test))))
 
-(asdf:defsystem sn.github/test
+(defsystem sn.github/test
   :class :package-inferred-system
-  :defsystem-depends-on (:rove)
-  :depends-on (:sn.github)
+  :depends-on (:sn.github :rove)
   :components ((:file "test/github"))
   :perform (test-op :after (o c)
+                    ;;#+quicklisp (ql:quickload :rove)
                     (uiop:symbol-call :rove :run :sn.github/test)))
